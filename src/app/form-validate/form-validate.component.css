@@ -1,0 +1,20 @@
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+.no-arrows::-webkit-inner-spin-button,
+.no-arrows::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+form.ng-invalid button {
+    cursor: none;
+    background-color: rgb(225, 225, 225);
+    color: rgb(142, 142, 142);
+}
+form.ng-valid button {
+    cursor: pointer;
+    background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+    color: white;
+}

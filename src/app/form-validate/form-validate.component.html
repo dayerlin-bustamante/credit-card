@@ -1,0 +1,105 @@
+<section>
+  <div class="px-4 py-12 mx-auto max-w-7xl sm:px-6 md:px-12 lg:px-24 lg:pt-24 pb-4">
+    <div class="justify-center mx-auto text-left align-bottom transition-all transform bg-white rounded-lg sm:align-middle sm:max-w-2xl sm:w-full">
+      <div class="grid flex-wrap items-center justify-center grid-cols-1 mx-auto shadow-xl lg:grid-cols-2 rounded-xl">
+        <div class="w-full px-6 py-3">
+       
+            <div class="mt-3 text-left sm:mt-5" *ngIf="showForm">
+              <div class="inline-flex items-center w-full">
+                <h3 class="text-lg font-bold text-neutral-600 l eading-6 lg:text-4xl">Interactive card</h3>
+              </div>
+              <div class="mt-4 text-base text-gray-500">
+                <p>Whrite your data</p>
+              </div>
+            </div>
+     
+          <app-thanks *ngIf="showSuccessComponent"></app-thanks>
+          <form [formGroup]="cardForm" (ngSubmit)="onSubmit()" *ngIf="showForm">
+            <div formGroupName="userData" class="mt-6 space-y-2">
+
+                <div>
+                  <label for="name" class="sr-only">Name</label>
+                  <input type="text" 
+                  name="name" 
+                  id="name"
+                  formControlName="name"
+                  class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300" 
+                  placeholder="Enter your name">
+                    <span *ngIf="!cardForm.get('userData.name').valid && cardForm.get('userData.name').touched">
+                        <span *ngIf="cardForm.get('userData.name').errors['required']" class="text-rose-700	text-xs	">This field is required!</span>
+                    </span>
+                </div>
+                <div>
+                  <label for="number" class="sr-only">number</label>
+                  <input type="number" 
+                  name="number" 
+                  id="number"
+                  formControlName="number"
+                  class="no-arrows block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300" placeholder="Enter your number">
+
+                    <span *ngIf="cardForm.get('userData.number').touched && cardForm.hasError('required', 'userData.number')" class="text-rose-700 text-xs">This field is required!</span>
+
+                    <span *ngIf="cardForm.get('userData.number').touched && cardForm.hasError('invalidNumber', 'userData.number')" class="text-rose-700 text-xs">This number is invalid!</span>
+
+        
+                </div>
+                <div class="grid gap-4 grid-cols-2">
+                    <div>
+                      <label class="sr-only" for="expires">Expires</label>
+                      <input
+                        class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                        placeholder="Expires At"
+                        type="expires"
+                        id="expires"
+                        formControlName="expires"
+                        (input)="onExpiresInput($event)"
+                        pattern="\d{2}\/\d{0,2}"
+                        maxlength="5"
+                        [(ngModel)]="dateInput"
+                        [value]="dateInput"
+                      />
+                      <div *ngIf="dateInput !== ''">
+                        <p *ngIf="!isValidMonthYear" class="text-rose-700 text-xs">this date in not valid</p>
+                        <p *ngIf="isExpiredYear" class="text-rose-700 text-xs">The year has expired.</p>
+                      </div>
+                    </div>
+        
+                    <div>
+                      <label class="sr-only" for="cvc">CVC</label>
+                      <input
+                        class="block w-full px-5 py-3 text-base text-neutral-600 placeholder-gray-300 transition duration-500 ease-in-out transform border border-transparent rounded-lg bg-gray-50 focus:outline-none focus:border-transparent focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
+                        placeholder="CVC Number"
+                        type="text"
+                        id="cvc"
+                        formControlName="cvc"
+                        pattern="\d{3}"
+                        maxlength="3"
+                        [value]="ramdonNumber"
+                      />
+                      <p class="underline text-blue-400 cursor-pointer text-xs text-right m-0" (click)="ramdonCvc()">Ramdon CVC</p>
+                    </div>
+                  </div>
+
+            </div>
+            <div class="flex flex-col mt-4 lg:space-y-2">
+              <button type="submit" [disabled]="!cardForm.valid" class="flex items-center justify-center w-full px-10 py-4  text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Confirme</button>
+              
+            </div>
+          </form>
+        </div>
+        <div class="order-first w-full h-full block">
+          <img class="object-cover hidden lg:block h-full bg-cover rounded-l-lg" src="../../assets/background-blend.png" alt="">
+            <app-credit-card
+                [typeCard]="typeCard"
+                [numberCard]="numberCard"
+                [name]="cardForm.get('userData.name').value"
+                [cvc]="cardForm.get('userData.cvc').value"
+                [expires]="cardForm.get('userData.expires').value"
+                >
+        
+            </app-credit-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
